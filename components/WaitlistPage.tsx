@@ -116,7 +116,7 @@ export default function WaitlistPage() {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-[100vw] md:w-[40vw] md:h-[40vw] bg-fuchsia-500/10 rounded-full blur-[80px] md:blur-[100px] animate-pulse" />
             </div>
 
-            <nav className="relative z-50 p-6 flex justify-between items-center max-w-7xl mx-auto">
+            <nav className="relative z-50 p-1 flex justify-between items-center max-w-7xl mx-auto">
                 <div className="flex items-center">
                     <img src="/UniBuy.png" alt="UniBuy Logo" className="w-40 h-40 object-contain" />
                     {/* <span className="text-xl font-bold tracking-tight ml-[-9] ">UniBuy</span> */}
@@ -124,7 +124,7 @@ export default function WaitlistPage() {
                 <ThemeToggle />
             </nav>
 
-            <main className="relative z-10 flex flex-col items-center justify-center pt-10 pb-32 px-4 text-center">
+            <main className="relative z-10 flex flex-col items-center justify-center pt-5 pb-32 px-4 text-center">
 
                 {/* Badge */}
                 <motion.div
@@ -263,7 +263,7 @@ export default function WaitlistPage() {
                             </div>
                         </div>
                         <p className="text-xs font-bold text-slate-600 dark:text-slate-300">
-                            <span className="text-slate-900 dark:text-white">500+</span> students waiting
+                            <span className="text-slate-900 dark:text-white">100+</span> students waiting
                         </p>
                     </div>
                 </motion.div>
