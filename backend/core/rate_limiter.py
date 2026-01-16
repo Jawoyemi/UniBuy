@@ -47,26 +47,35 @@ class RateLimiter:
         self.ttl = 3600  # 1 hour idle timeout
 
     async def __call__(self, request: Request):
+        if not redis_client:
+            return  # Skip rate limiting if Redis is not available
+            
         # Use client IP as the key. You could also use user ID if authenticated.
         client_ip = request.client.host
         key = f"rate_limit:{request.url.path}:{client_ip}"
         
-        # Execute Lua script
-        allowed = await redis_client.eval(
-            TOKEN_BUCKET_LUA, 
-            1, 
-            key, 
-            self.refill_rate, 
-            self.capacity, 
-            time.time(), 
-            self.ttl
-        )
-        
-        if not allowed:
-            raise HTTPException(
-                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-                detail="Too many requests. Please try again later."
+        try:
+            # Execute Lua script
+            allowed = await redis_client.eval(
+                TOKEN_BUCKET_LUA, 
+                1, 
+                key, 
+                self.refill_rate, 
+                self.capacity, 
+                time.time(), 
+                self.ttl
             )
+            
+            if not allowed:
+                raise HTTPException(
+                    status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                    detail="Too many requests. Please try again later."
+                )
+        except Exception as e:
+            if isinstance(e, HTTPException):
+                raise e
+            print(f"ERROR: Rate limiter Redis error: {e}")
+            return # Fail open on Redis errors
 
 # Convenience aliases for common limits
 signup_limiter = RateLimiter(requests_per_minute=5)

@@ -10,11 +10,6 @@ services:
         fromDatabase:
           name: unibuy-db
           property: connectionString
-      - key: REDIS_URL
-        fromService:
-          type: redis
-          name: unibuy-redis
-          property: connectionString
       - key: SECRET_KEY
         generateValue: true
       - key: ALGORITHM
@@ -26,25 +21,19 @@ services:
       - key: SMTP_PORT
         value: "587"
       - key: SMTP_HOST
-        sync: false # User must set this in Render Dashboard
+        sync: false
       - key: SMTP_USER
-        sync: false # User must set this in Render Dashboard
+        sync: false
       - key: SMTP_PASSWORD
-        sync: false # User must set this in Render Dashboard
+        sync: false
       - key: EMAILS_FROM_EMAIL
-        sync: false # User must set this in Render Dashboard
+        sync: false
       - key: EMAILS_FROM_NAME
         value: "Unibuy"
       - key: SENDGRID_API_KEY
-        sync: false # User must set this in Render Dashboard
-
-  # Redis Service for Rate Limiting
-  - type: redis
-    name: unibuy-redis
-    plan: free
-    ipAllowList: [] # Internal access only
+        sync: false
 
 databases:
-  # PostgreSQL Database
+  # PostgreSQL Database (Free for 90 days)
   - name: unibuy-db
     plan: free
